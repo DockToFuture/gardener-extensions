@@ -36,6 +36,10 @@ type NetworkConfig struct {
 	Internal *string
 	// Workers is the worker subnet range to create (used for the VMs).
 	Worker string
+	// Enable Flow Logging
+	EnableFlowLogs string
+	// Flow log config
+	FlowLogConfig FlowLogConfig
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -70,12 +74,26 @@ const (
 	PurposeInternal SubnetPurpose = "internal"
 )
 
+// FlowLogConfig contains the config for flow logs
+type FlowLogConfig struct {
+	// AggregationInterval toggles the aggregation interval for collecting flow logs
+	AggregationInterval string
+	// FlowSampling sets the sampling rate for flow logs within the subnet
+	FlowSampling string
+	// Metadata
+	Metadata string
+}
+
 // Subnet is a subnet that was created.
 type Subnet struct {
 	// Name is the name of the subnet.
 	Name string
 	// Purpose is the purpose for which the subnet was created.
 	Purpose SubnetPurpose
+	// Enable Flow Logging
+	EnableFlowLogs string
+	// Flow log config
+	FlowLogConfig FlowLogConfig
 }
 
 // VPC contains information about the VPC and some related resources.

@@ -38,6 +38,10 @@ type NetworkConfig struct {
 	Internal *string `json:"internal,omitempty"`
 	// Workers is the worker subnet range to create (used for the VMs).
 	Worker string `json:"worker"`
+	// Enable Flow Logging
+	EnableFlowLogs string `json:"enableFlowLogs,omitempty"`
+	// Flow log config
+	FlowLogConfig FlowLogConfig `json:"flowLogConfig,omitempty"`
 }
 
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
@@ -72,12 +76,26 @@ const (
 	PurposeInternal SubnetPurpose = "internal"
 )
 
+// FlowLogConfig contains the config for flow logs
+type FlowLogConfig struct {
+	// AggregationInterval toggles the aggregation interval for collecting flow logs
+	AggregationInterval string `json:"aggregationInterval,omitempty"`
+	// FlowSampling sets the sampling rate for flow logs within the subnet
+	FlowSampling string `json:"flowSampling,omitempty"`
+	// Metadata
+	Metadata string `json:"metadata,omitempty"`
+}
+
 // Subnet is a subnet that was created.
 type Subnet struct {
 	// Name is the name of the subnet.
 	Name string `json:"name"`
 	// Purpose is the purpose for which the subnet was created.
 	Purpose SubnetPurpose `json:"purpose"`
+	// Enable Flow Logging
+	EnableFlowLogs string
+	// Flow log config
+	FlowLogConfig FlowLogConfig
 }
 
 // VPC contains information about the VPC and some related resources.
